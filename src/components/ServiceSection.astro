@@ -1,0 +1,69 @@
+---
+import { iconSvg } from '../lib/icons';
+import type { HomeConfig } from '../lib/types';
+
+interface Props {
+  items: HomeConfig['services']['items'];
+}
+
+const { items } = Astro.props;
+---
+
+<section
+  class="section-block"
+  aria-labelledby="services-title"
+>
+  <div class="container-site">
+    <div class="text-center" data-reveal>
+      <h2 id="services-title" class="section-title-glow text-2xl md:text-4xl">
+        一站式广告物料服务
+      </h2>
+      <p class="mx-auto mt-3 max-w-2xl text-text-secondary">
+        设计、制作、安装、配送一步到位，先出方案，满意再下单
+      </p>
+    </div>
+
+    <!-- 服务四卡片（REQ-007）：移动 1 列 / 平板 2 列 / 桌面 4 列 -->
+    <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4" data-reveal-group>
+      {
+        items.map((item, index) => (
+          <a
+            href={item.href}
+            class="card-surface group flex flex-col p-6"
+            data-reveal-item
+            style={`--reveal-delay:${index * 80}ms`}
+          >
+            <span
+              class="flex h-14 w-14 items-center justify-center rounded-[var(--radius-btn)] border border-accent-glow/35 bg-accent-glow/10 text-accent-glow transition group-hover:box-glow"
+              set:html={iconSvg(item.icon, 26)}
+            />
+            <h3 class="mt-4 text-lg font-bold text-text-primary">{item.name}</h3>
+            <p class="mt-2 flex-1 text-sm text-text-secondary">{item.desc}</p>
+            <!-- 卡内转化出口（REQ-002 双出口之一） -->
+            <span class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-accent-glow">
+              咨询了解
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </span>
+          </a>
+        ))
+      }
+    </div>
+
+    <!-- 板块级转化出口（REQ-002） -->
+    <div class="mt-8 text-center" data-reveal>
+      <button
+        type="button"
+        data-open-wechat
+        class="inline-flex min-h-11 items-center gap-2 rounded-[var(--radius-btn)] px-6 py-2.5 text-sm btn-secondary-glow"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M8.7 4C5 4 2 6.5 2 9.6c0 1.7.9 3.3 2.3 4.3l-.6 1.9c-.1.3.2.6.5.4l2.1-1.3c.8.2 1.6.3 2.4.3.3 0 .6 0 .9-.1-.1-.5-.1-1 0-1.5 0-2.7 2.4-4.8 5.4-4.8h.4C14.6 5.8 11.9 4 8.7 4zM6.4 7.6c.7 0 1.2.5 1.2 1.2S7 10 6.4 10s-1.2-.5-1.2-1.2.5-1.2 1.2-1.2zm4.6 0c.7 0 1.2.5 1.2 1.2s-.5 1.2-1.2 1.2-1.2-.5-1.2-1.2.5-1.2 1.2-1.2zM22 14.4c0-2.6-2.6-4.7-5.8-4.7s-5.8 2.1-5.8 4.7 2.6 4.7 5.8 4.7c.7 0 1.4-.1 2-.3l1.8 1.1c.3.2.6-.1.5-.4l-.5-1.6c1.3-.9 2-2 2-3.5zm-7.7-.6c-.6 0-1-.5-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1zm3.8 0c-.6 0-1-.5-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1z"/>
+        </svg>
+        拿不定主意？加微信，客服帮你推荐
+      </button>
+    </div>
+  </div>
+</section>

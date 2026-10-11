@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import WorksFilter from '../components/WorksFilter.astro';
+import WorksGrid from '../components/WorksGrid.astro';
+import EmptyState from '../components/EmptyState.astro';
+import CTABanner from '../components/CTABanner.astro';
+import { works } from '../lib/content';
+---
+
+<BaseLayout
+  pageTitle="作品集：门头|招牌|展架|画册 实拍案例"
+  pageDescription="门头发光字、招牌、展架、画册等真实广告物料案例展示，按分类筛选浏览，定制同类作品微信咨询报价。"
+>
+  <!-- 页头 -->
+  <section class="bg-light-spots py-14 md:py-20" aria-labelledby="works-title">
+    <div class="container-site text-center">
+      <span class="inline-flex rounded-full border border-accent-glow/45 bg-accent-glow/10 px-4 py-1.5 text-sm text-accent-glow text-neon" data-reveal>
+        真实落地案例
+      </span>
+      <h1 id="works-title" class="text-glow-gradient mx-auto mt-4 text-3xl font-extrabold md:text-5xl" data-reveal style="--reveal-delay:80ms">
+        作品集
+      </h1>
+      <p class="mx-auto mt-4 max-w-2xl text-text-secondary" data-reveal style="--reveal-delay:160ms">
+        门头、招牌、展架、画册实拍案例，点击分类快速筛选，看中哪款直接定制同款
+      </p>
+    </div>
+  </section>
+
+  <!-- 主内容区：筛选 Tab + 作品网格 + 空状态兜底（REQ-016/017/018） -->
+  <div class="container-site section-block">
+    <WorksFilter categories={works.categories} />
+
+    <!-- 筛选时为空分类/空数据时展示 EmptyState（由 WorksFilter 脚本控制） -->
+    <div id="works-grid-region" role="region" aria-label="作品列表">
+      <WorksGrid items={works.items} />
+      <div data-works-empty hidden>
+        <EmptyState
+          title="暂无该分类作品"
+          text="换个分类看看，或直接联系设计师聊聊需求"
+        />
+      </div>
+    </div>
+
+    <!-- 网格底部 CTA（REQ-002 转化出口） -->
+    <div class="mt-10 text-center">
+      <a
+        href="/order"
+        class="inline-flex min-h-12 items-center gap-2 rounded-[var(--radius-btn)] px-8 py-3 text-base btn-primary-glow btn-sweep"
+      >
+        定制同类作品
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14" />
+          <path d="m12 5 7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- 页底 CTA 横幅（REQ-002） -->
+  <CTABanner
+    title="以上的作品就是你未来的门店效果"
+    subtitle="把需求告诉我们，免费出同款方案与报价"
+  />
+</BaseLayout>

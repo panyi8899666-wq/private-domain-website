@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import ServiceSection from '../components/ServiceSection.astro';
+import MaterialPreview from '../components/MaterialPreview.astro';
+import WorksPreview from '../components/WorksPreview.astro';
+import ProcessFlow from '../components/ProcessFlow.astro';
+import CTABanner from '../components/CTABanner.astro';
+import { home, site, homeWorksPreview } from '../lib/content';
+
+const previewItems = homeWorksPreview();
+
+// 首页结构化数据（Organization，数据来自 site.json，REQ-036 增强）
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: site.siteName,
+  slogan: site.slogan,
+  url: new URL('/', Astro.site).href,
+  description: site.slogan,
+});
+---
+
+<BaseLayout
+  pageTitle="潘工·广告物料一站式：发光字|门头招牌|喷绘写真|印刷品"
+  pageDescription="10年广告物料老匠人，提供发光字、门头招牌、喷绘写真、印刷品设计制作，免费测量报价，微信下单。"
+  jsonLd={jsonLd}
+>
+  <!-- 按 design §2.6.2 block 顺序组装首页 -->
+  <Hero />
+
+  <!-- 服务板块（REQ-007） -->
+  <ServiceSection items={home.services.items} />
+
+  <!-- 物料百科预览（REQ-008） -->
+  <MaterialPreview cards={home.materialPreview.cards} />
+
+  <!-- 作品集预览（REQ-009，4~6 张） -->
+  <WorksPreview items={previewItems} />
+
+  <!-- 接单流程四步（REQ-010） -->
+  <ProcessFlow
+    steps={home.process.steps}
+    ctaText={home.process.ctaText}
+    ctaHref={home.process.ctaHref}
+  />
+
+  <!-- 底部转化横幅（REQ-002 兜底出口） -->
+  <CTABanner />
+</BaseLayout>

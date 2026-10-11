@@ -1,0 +1,107 @@
+---
+import type { WorksConfig } from '../lib/types';
+
+interface Props {
+  categories: WorksConfig['categories'];
+}
+
+const { categories } = Astro.props;
+
+/** 内置「全部」分类（REQ-016：不写入数据文件，自动注入） */
+const tabs = [
+  { id: 'all', name: '全部' },
+  ...categories,
+];
+---
+
+<!-- 作品分类筛选（REQ-016/018）：横向滚动 Tab + 原生 JS 过滤 -->
+<div class="works-filter-tabs" role="tablist" aria-label="作品分类筛选">
+  <div
+    class="mb-8 flex gap-2 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+  >
+    {
+      tabs.map((tab) => (
+        <button
+          type="button"
+          role="tab"
+          class:list={[
+            'works-tab rounded-[var(--radius-tag)] border border-border-line bg-bg-surface px-5 text-sm text-text-secondary',
+            { 'is-active': tab.id === 'all' },
+          ]}
+          data-filter={tab.id}
+          aria-selected={tab.id === 'all' ? 'true' : 'false'}
+          aria-controls="works-grid-region"
+        >
+          {tab.name}
+        </button>
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  // 作品分类筛选脚本（tasks.md 7.2 / 9.x，原生 JS 渐进增强）
+  (function () {
+    var grid = document.querySelector('[data-works-grid]');
+    var tabs = Array.prototype.slice.call(
+      document.querySelectorAll('[data-filter]')
+    );
+    var emptyBox = document.querySelector('[data-works-empty]');
+    var region = document.getElementById('works-grid-region');
+    if (!grid || tabs.length === 0) return;
+
+    var totalCount = grid.querySelectorAll('[data-category]').length;
+
+    function currentCount(category) {
+      var all = grid.querySelectorAll('[data-category]');
+      var n = 0;
+      all.forEach(function (card) {
+        if (category === 'all' || card.getAttribute('data-category') === category) {
+          n += 1;
+        }
+      });
+      return n;
+    }
+
+    function applyFilter(category, activeTab) {
+      var visible = 0;
+      grid.querySelectorAll('[data-category]').forEach(function (card) {
+        var match = category === 'all' || card.getAttribute('data-category') === category;
+        card.classList.toggle('is-hidden', !match);
+        if (match) visible += 1;
+      });
+
+      // Tab 激活态与 aria-selected 同步
+      tabs.forEach(function (tab) {
+        var isActive = tab === activeTab;
+        tab.classList.toggle('is-active', isActive);
+        tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+
+      // 空分类兜底（REQ-018：显示「暂无该分类作品」+ 咨询入口，保留 Tab 可切换）
+      if (emptyBox) {
+        if (visible === 0) {
+          var label = activeTab ? activeTab.textContent.trim() : '该分类';
+          var titleEl = emptyBox.querySelector('[data-empty-title]');
+          if (titleEl) titleEl.textContent = '暂无「' + label + '」分类作品';
+          emptyBox.hidden = false;
+          if (region) region.setAttribute('aria-label', '暂无该分类作品');
+        } else {
+          emptyBox.hidden = true;
+        }
+      }
+    }
+
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        applyFilter(tab.getAttribute('data-filter') || 'all', tab);
+      });
+    });
+
+    // 空数据（作品数组为空，REQ-017）：隐藏网格直接展示空状态
+    if (totalCount === 0 && emptyBox) {
+      grid.hidden = true;
+      emptyBox.hidden = false;
+    }
+  })();
+</script>

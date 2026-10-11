@@ -1,0 +1,117 @@
+---
+import { home, site } from '../lib/content';
+
+const hero = home.hero;
+---
+
+<!-- 首屏 Hero（REQ-006）：全高 + 深色渐变 + 径向光斑，定位文案 + 双按钮 -->
+<section
+  class="bg-light-spots relative flex min-h-[100svh] items-center overflow-hidden"
+  aria-label="首屏介绍"
+>
+  <!-- 背景图：可配置、低透明度叠加（占位图加载失败自动隐藏） -->
+  {hero.backgroundImage && (
+    <img
+      src={hero.backgroundImage}
+      alt=""
+      aria-hidden="true"
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+      class="absolute inset-0 h-full w-full object-cover opacity-15"
+      onerror="this.style.display='none'"
+    />
+  )}
+
+  <!-- 装饰光斑（纯 CSS，design §2.7.5） -->
+  <div
+    class="pointer-events-none absolute left-[12%] top-[18%] h-72 w-72 rounded-full bg-accent-glow/15 blur-3xl"
+    aria-hidden="true"
+  ></div>
+  <div
+    class="pointer-events-none absolute bottom-[16%] right-[10%] h-80 w-80 rounded-full bg-accent-orange/10 blur-3xl"
+    aria-hidden="true"
+  ></div>
+  <div
+    class="pointer-events-none absolute right-[30%] top-[12%] h-40 w-40 rounded-full bg-[#7B6CFF]/15 blur-3xl"
+    aria-hidden="true"
+  ></div>
+
+  <div class="container-site relative z-10 py-24 text-center">
+    <span
+      class="inline-flex items-center rounded-full border border-accent-glow/45 bg-accent-glow/10 px-4 py-1.5 text-sm text-accent-glow text-neon"
+      data-reveal
+      >{hero.badge}</span
+    >
+
+    <h1
+      class="text-glow-gradient mx-auto mt-6 max-w-4xl text-4xl font-extrabold leading-tight md:text-6xl"
+      data-reveal
+      style="--reveal-delay:80ms"
+    >
+      {hero.title}
+    </h1>
+
+    <p
+      class="mx-auto mt-5 max-w-2xl text-lg text-text-primary/90 md:text-xl"
+      data-reveal
+      style="--reveal-delay:160ms"
+    >
+      {hero.subtitle}
+    </p>
+    <p
+      class="mx-auto mt-2 text-sm text-text-secondary"
+      data-reveal
+      style="--reveal-delay:200ms"
+    >
+      {site.slogan}
+    </p>
+
+    <div
+      class="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row"
+      data-reveal
+      style="--reveal-delay:240ms"
+    >
+      <a
+        href={hero.primaryCtaHref}
+        class="inline-flex min-h-12 w-full max-w-xs items-center justify-center gap-2 rounded-[var(--radius-btn)] px-8 py-3.5 text-base sm:w-auto btn-primary-glow btn-sweep"
+      >
+        {hero.primaryCtaText}
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14" />
+          <path d="m12 5 7 7-7 7" />
+        </svg>
+      </a>
+      <button
+        type="button"
+        data-open-wechat
+        class="inline-flex min-h-12 w-full max-w-xs items-center justify-center gap-2 rounded-[var(--radius-btn)] px-8 py-3.5 text-base sm:w-auto btn-secondary-glow"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M8.7 4C5 4 2 6.5 2 9.6c0 1.7.9 3.3 2.3 4.3l-.6 1.9c-.1.3.2.6.5.4l2.1-1.3c.8.2 1.6.3 2.4.3.3 0 .6 0 .9-.1-.1-.5-.1-1 0-1.5 0-2.7 2.4-4.8 5.4-4.8h.4C14.6 5.8 11.9 4 8.7 4zM6.4 7.6c.7 0 1.2.5 1.2 1.2S7 10 6.4 10s-1.2-.5-1.2-1.2.5-1.2 1.2-1.2zm4.6 0c.7 0 1.2.5 1.2 1.2s-.5 1.2-1.2 1.2-1.2-.5-1.2-1.2.5-1.2 1.2-1.2zM22 14.4c0-2.6-2.6-4.7-5.8-4.7s-5.8 2.1-5.8 4.7 2.6 4.7 5.8 4.7c.7 0 1.4-.1 2-.3l1.8 1.1c.3.2.6-.1.5-.4l-.5-1.6c1.3-.9 2-2 2-3.5zm-7.7-.6c-.6 0-1-.5-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1zm3.8 0c-.6 0-1-.5-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1z"/>
+        </svg>
+        {hero.secondaryCtaText}
+      </button>
+    </div>
+
+    <!-- 信任指标 -->
+    <dl
+      class="mx-auto mt-12 grid max-w-2xl grid-cols-3 gap-4 border-t border-border-line pt-8"
+      data-reveal
+      style="--reveal-delay:320ms"
+    >
+      <div>
+        <dt class="order-first text-xs text-text-muted">从业经验</dt>
+        <dd class="text-2xl font-bold text-text-primary">10 年+</dd>
+      </div>
+      <div>
+        <dt class="order-first text-xs text-text-muted">服务客户</dt>
+        <dd class="text-2xl font-bold text-text-primary">800 家+</dd>
+      </div>
+      <div>
+        <dt class="order-first text-xs text-text-muted">免费服务</dt>
+        <dd class="text-2xl font-bold text-text-primary">量测/设计/报价</dd>
+      </div>
+    </dl>
+  </div>
+</section>

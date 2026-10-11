@@ -1,0 +1,60 @@
+---
+import type { WorksConfig } from '../lib/types';
+import { categoryName } from '../lib/content';
+
+interface Props {
+  items: WorksConfig['items'];
+}
+
+const { items } = Astro.props;
+---
+
+<!-- 作品网格（REQ-017）：1/2/3 列响应式 + 名称/分类标签 + 占位图兜底 -->
+<div
+  class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+  data-works-grid
+  data-works-count={String(items.length)}
+>
+  {
+    items.map((item) => (
+      <article
+        class="work-card card-surface group overflow-hidden"
+        data-category={item.category}
+        data-work-id={item.id}
+      >
+        <a href="/order" class="block" aria-label={`定制同类作品：${item.name}`}>
+          <div class="aspect-[4/3] overflow-hidden bg-bg-surface-2">
+            <img
+              src={item.image}
+              alt={item.alt}
+              loading="lazy"
+              decoding="async"
+              class="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+              onerror="this.src='/images/works/placeholder.svg';this.onerror=null;"
+            />
+          </div>
+          <div class="p-4">
+            <h3 class="truncate font-semibold text-text-primary transition group-hover:text-accent-glow">
+              {item.name}
+            </h3>
+            <p class="mt-2 flex items-center gap-2 text-xs text-text-muted">
+              <span class="rounded-[var(--radius-tag)] border border-accent-glow/30 bg-accent-glow/10 px-2 py-0.5 text-accent-glow">
+                {categoryName(item.category)}
+              </span>
+              <span class="truncate">{item.note}</span>
+            </p>
+            <span
+              class="mt-3 inline-flex items-center gap-1 text-xs font-medium text-text-secondary transition group-hover:text-accent-glow"
+            >
+              定制同类作品
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </span>
+          </div>
+        </a>
+      </article>
+    ))
+  }
+</div>

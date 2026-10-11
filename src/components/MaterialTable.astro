@@ -1,0 +1,146 @@
+---
+interface ParamRow {
+  name: string;
+  value: string;
+  note: string;
+}
+
+interface Props {
+  /** 表格形态：'params' = 参数表（发光字八参数）；'compare' = 对照表（喷绘/印刷） */
+  variant: 'params' | 'compare';
+  /** 区块标题（表格 caption） */
+  title?: string;
+  /** 引言文字 */
+  intro?: string;
+  /** 参数表数据 */
+  params?: ParamRow[];
+  /** 对照表表头 */
+  columns?: string[];
+  /** 对照表行数据（首列作粘附列） */
+  rows?: Array<Record<string, string>>;
+  /** 底部转化按钮文案（缺省不渲染） */
+  ctaText?: string;
+  /** 底部转化按钮链接（默认 /order） */
+  ctaHref?: string;
+}
+
+const { variant, title, intro, params, columns, rows, ctaText, ctaHref = '/order' } =
+  Astro.props;
+---
+
+<!-- 通用物料表（REQ-012 参数表 / REQ-014/015 对照表，含横向滑动容器） -->
+<div class="card-surface overflow-hidden">
+  <div class="border-b border-border-line p-5 md:p-6">
+    {title && (
+      <h3 class="section-title-glow text-lg font-bold md:text-xl">{title}</h3>
+    )}
+    {intro && <p class="mt-2 text-sm text-text-secondary">{intro}</p>}
+  </div>
+
+  <div class="p-2">
+    <!-- 横向滑动容器（REQ-014/015：375px 可横滑不截断） -->
+    <div class="table-scroll" data-table-scroll>
+      {variant === 'params' && (
+        <table class="table-list">
+          <caption class="sr-only">{title ?? '物料参数表'}</caption>
+          <thead>
+            <tr>
+              <th scope="col" class="th-sticky">参数</th>
+              <th scope="col">参考值</th>
+              <th scope="col">补充说明</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              params?.map((row) => (
+                <tr>
+                  <th scope="row" class="td-sticky">{row.name}</th>
+                  <td class="text-text-primary font-medium">{row.value}</td>
+                  <td>{row.note}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      )}
+
+      {variant === 'compare' && columns && (
+        <table class="table-list">
+          <caption class="sr-only">{title ?? '物料对照表'}</caption>
+          <thead>
+            <tr>
+              {columns.map((col, index) => (
+                <th scope="col" class:list={[{ 'th-sticky': index === 0 }]}>
+                  {col}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {
+              rows?.map((row) => {
+                const cells = Object.keys(row);
+                return (
+                  <tr>
+                    {columns.map((_, index) => (
+                      <td
+                        class:list={[
+                          index === 0 ? 'td-sticky' : '',
+                          index === 0 ? 'font-semibold' : 'text-text-secondary',
+                        ]}
+                      >
+                        {row[cells[index] ?? ''] ?? '—'}
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })
+            }
+          </tbody>
+        </table>
+      )}
+    </div>
+
+    <!-- 移动端滚动提示（仅窄屏显示，design §2.8.5） -->
+    <p class="scroll-hint mt-2 px-3" aria-hidden="true">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m9 18 6-6-6-6" />
+      </svg>
+      左右滑动查看更多
+    </p>
+
+    <!-- 底部转化出口（REQ-002 无死胡同） -->
+    {ctaText && (
+      <div class="px-3 pb-4 pt-2 text-center">
+        <a
+          href={ctaHref}
+          class="inline-flex min-h-11 items-center gap-2 rounded-[var(--radius-btn)] px-6 py-2.5 text-sm btn-primary-glow"
+        >
+          {ctaText}
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+    )}
+  </div>
+</div>
+
+<script>
+  // 表格横滑遮罩联动（tasks.md 9.3 / design §2.8.5）
+  (function () {
+    var scrollBoxes = document.querySelectorAll('[data-table-scroll]');
+    scrollBoxes.forEach(function (box) {
+      function update() {
+        var maxLeft = box.scrollWidth - box.clientWidth - 4;
+        box.classList.toggle('at-start', box.scrollLeft <= 4);
+        box.classList.toggle('scrolled-end', box.scrollLeft >= maxLeft);
+        box.classList.toggle('scrollable-start', box.scrollLeft > 4);
+      }
+      box.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update, { passive: true });
+      update();
+    });
+  })();
+</script>

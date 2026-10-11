@@ -1,0 +1,74 @@
+---
+import type { WorksConfig } from '../lib/types';
+import { categoryName } from '../lib/content';
+
+interface Props {
+  /** 首页展示的作品（已由 content.ts 按 featured 优先截取 4~6 条） */
+  items: WorksConfig['items'];
+  /** 更多文案（默认「查看全部作品」） */
+  moreText?: string;
+}
+
+const { items, moreText = '查看全部作品' } = Astro.props;
+---
+
+<!-- 首页作品集预览（REQ-009）：4~6 张缩略图 + 跳转作品集 -->
+<section
+  class="section-block"
+  aria-labelledby="works-preview-title"
+>
+  <div class="container-site">
+    <div class="flex flex-wrap items-end justify-between gap-4" data-reveal>
+      <div>
+        <h2 id="works-preview-title" class="section-title-glow text-2xl md:text-4xl">
+          最近作品
+        </h2>
+        <p class="mt-3 text-text-secondary">真实落地案例，支持按分类浏览</p>
+      </div>
+      <a
+        href="/works"
+        class="inline-flex min-h-11 items-center gap-1 rounded-[var(--radius-btn)] px-5 py-2 text-sm text-accent-glow transition hover:bg-accent-glow/10"
+      >
+        {moreText}
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14" />
+          <path d="m12 5 7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+
+    <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-reveal-group>
+      {
+        items.map((item, index) => (
+          <article
+            class="card-surface group overflow-hidden"
+            data-reveal-item
+            style={`--reveal-delay:${index * 80}ms`}
+          >
+            <a href="/works" class="block" aria-label={`查看作品：${item.name}`}>
+              <div class="aspect-[4/3] overflow-hidden bg-bg-surface-2">
+                <img
+                  src={item.image}
+                  alt={item.alt}
+                  loading="lazy"
+                  decoding="async"
+                  class="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                  onerror="this.src='/images/works/placeholder.svg';this.onerror=null;"
+                />
+              </div>
+              <div class="p-4">
+                <h3 class="truncate font-semibold text-text-primary">{item.name}</h3>
+                <p class="mt-1 flex items-center gap-2 text-xs text-text-muted">
+                  <span class="rounded-[var(--radius-tag)] border border-accent-glow/30 bg-accent-glow/10 px-2 py-0.5 text-accent-glow">
+                    {categoryName(item.category)}
+                  </span>
+                  {item.note}
+                </p>
+              </div>
+            </a>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

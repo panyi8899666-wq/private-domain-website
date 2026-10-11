@@ -1,0 +1,79 @@
+---
+import { site } from '../lib/content';
+---
+
+<footer
+  class="mt-10 border-t border-border-line bg-bg-surface"
+  aria-label="站点页脚"
+>
+  <div class="container-site grid gap-10 py-12 md:grid-cols-3">
+    <!-- 品牌 + 二维码 -->
+    <div>
+      <p class="text-lg font-bold text-text-primary">{site.siteName}</p>
+      <p class="mt-1 text-sm text-text-secondary">{site.slogan}</p>
+      <figure class="mt-4 w-32">
+        <img
+          src={site.wechat.qrImage}
+          alt={site.wechat.qrAlt}
+          width="280"
+          height="280"
+          loading="lazy"
+          class="w-32 rounded-[var(--radius-card)] border border-border-line bg-white p-1"
+        />
+        <figcaption class="mt-1 text-xs text-text-muted">
+          微信扫码添加，免费报价
+        </figcaption>
+      </figure>
+    </div>
+
+    <!-- 联系方式（微信号可长按复制，REQ-004） -->
+    <div>
+      <p class="text-sm font-semibold tracking-wider text-text-muted uppercase">
+        联系方式
+      </p>
+      <ul class="mt-3 space-y-3 text-sm text-text-secondary">
+        <li>
+          微信号：
+          <span class="select-all text-text-primary font-medium">{site.wechat.wechatId}</span>
+        </li>
+        {site.contact.location && (
+          <li>服务范围：{site.contact.location}</li>
+        )}
+        {site.contact.serviceHours && (
+          <li>接单时间：{site.contact.serviceHours}</li>
+        )}
+        {site.contact.phone && <li>联系电话：{site.contact.phone}</li>}
+      </ul>
+      <a
+        href="/order"
+        class="mt-4 inline-flex min-h-11 items-center rounded-[var(--radius-btn)] px-5 py-2 text-sm btn-primary-glow"
+      >
+        免费咨询报价
+      </a>
+    </div>
+
+    <!-- 服务范围简述 -->
+    <div>
+      <p class="text-sm font-semibold tracking-wider text-text-muted uppercase">
+        服务范围
+      </p>
+      <ul class="mt-3 space-y-2 text-sm text-text-secondary">
+        <li>· 发光字 / 灯箱 / 标识字定制安装</li>
+        <li>· 室内写真 / 户外喷绘 / 展架画面</li>
+        <li>· 印刷品：铜版纸 / 卡纸 / 相纸 / 不干胶</li>
+        <li>· 广告设计：logo / 海报 / 画册</li>
+      </ul>
+      <nav class="mt-4 flex flex-wrap gap-x-5 gap-y-2" aria-label="页脚导航">
+        <a href="/material" class="text-sm text-text-secondary hover:text-accent-glow">物料百科</a>
+        <a href="/works" class="text-sm text-text-secondary hover:text-accent-glow">作品集</a>
+        <a href="/order" class="text-sm text-text-secondary hover:text-accent-glow">下单咨询</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="border-t border-border-line py-4">
+    <p class="container-site text-center text-xs text-text-muted">
+      {site.footerCopyright}
+    </p>
+  </div>
+</footer>

@@ -1,0 +1,78 @@
+---
+import { order } from '../lib/content';
+
+const form = order.form;
+---
+
+<!-- 需求表单区块（REQ-020/023）：iframe 内嵌问卷 + 独立兜底直链双通道 -->
+<div class="card-surface overflow-hidden">
+  <div class="border-b border-border-line p-5 md:p-6">
+    <h2 class="section-title-glow text-lg font-bold md:text-xl">
+      填写需求表
+    </h2>
+    <p class="mt-2 text-sm text-text-secondary">
+      需求类型、规格描述、数量/尺寸、联系方式一次说清，更快拿到报价
+    </p>
+  </div>
+
+  <div class="p-4 md:p-5">
+    <!-- iframe 内嵌问卷（非全屏遮罩，页面主体可随滚动离开，REQ-020） -->
+    <div class="overflow-hidden rounded-[var(--radius-btn)] border border-border-line bg-bg-surface-2">
+      <iframe
+        src={form.embedUrl}
+        title={form.iframeTitle}
+        data-survey-iframe
+        class="block h-[720px] w-full"
+        style="min-height: 420px"
+        loading="lazy"
+        allow="fullscreen"
+      ></iframe>
+    </div>
+
+    <!-- 兜底直链（REQ-023 必实现通道：iframe 打不开/被拦截时仍可提交需求） -->
+    <a
+      href={form.fallbackUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-[var(--radius-btn)] border border-dashed border-accent-glow/50 bg-accent-glow/5 px-5 py-3 text-center text-sm font-medium text-accent-glow transition hover:bg-accent-glow/10"
+      aria-label={`${form.fallbackText}（将在新窗口打开）`}
+    >
+      {form.fallbackText}
+      <svg class="ext-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+        <path d="M15 3h6v6" />
+        <path d="M10 14 21 3" />
+      </svg>
+      新窗口
+    </a>
+    <p class="mt-2 text-xs text-text-muted">
+      表单数据由腾讯问卷/金数据平台收集，提交后设计师在后台查收，不会外泄
+    </p>
+  </div>
+</div>
+
+<script>
+  // iframe 高度自适应（tasks.md 9.3）：跨域无法读取时保持默认高度，不遮罩整页
+  (function () {
+    var frame = document.querySelector('[data-survey-iframe]');
+    if (!frame) return;
+
+    // 微信内置浏览器内 iframe 高度压扁的概率更高，给大一点默认高度
+    if (/MicroMessenger/i.test(navigator.userAgent || '')) {
+      frame.style.height = '820px';
+    }
+
+    frame.addEventListener('load', function () {
+      try {
+        // 同域问卷可读取内容高度自适应；跨域抛异常则保持默认，静默降级
+        var doc = frame.contentDocument;
+        if (doc && doc.body && doc.body.scrollHeight > 200) {
+          var h = Math.min(doc.body.scrollHeight + 40, 1600);
+          frame.style.height = h + 'px';
+        }
+      } catch (_) {
+        /* 跨域 iframe 无法读取高度，保持默认高度即可（REQ-020 不遮罩整页） */
+      }
+    });
+  })();
+</script>

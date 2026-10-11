@@ -1,0 +1,163 @@
+---
+import '../styles/global.css';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import FloatWechatButton from '../components/FloatWechatButton.astro';
+import { site, order } from '../lib/content';
+
+interface Props {
+  /** 页面独立 title（含目标关键词，REQ-036） */
+  pageTitle?: string;
+  /** 页面独立 meta description（含目标关键词，REQ-036） */
+  pageDescription?: string;
+  /** 页面关键词（覆盖 site.json 默认值） */
+  pageKeywords?: string;
+  /** 附加到 <head> 的 JSON-LD 结构化数据（可选） */
+  jsonLd?: string;
+}
+
+const { pageTitle, pageDescription, pageKeywords, jsonLd } = Astro.props;
+
+const title = pageTitle ?? `${site.siteName} - ${site.slogan}`;
+const description =
+  pageDescription ?? `${site.slogan}，提供广告设计、物料制作、发光字、喷绘写真、印刷品服务，免费测量报价。`;
+const keywords = pageKeywords ?? site.seo.defaultKeywords;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+/** 从问卷地址提取第三方域名（REQ-031：只预连问卷域名，不预连多余外域） */
+function hostOf(url: string): string {
+  try {
+    return new URL(url).host;
+  } catch {
+    return '';
+  }
+}
+const surveyHost = hostOf(order.form.embedUrl);
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#0b0f14" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:site_name" content={site.siteName} />
+    {surveyHost && (
+      <link rel="preconnect" href={`https://${surveyHost}`} crossorigin />
+    )}
+    {
+      jsonLd && <script type="application/ld+json" set:html={jsonLd}></script>
+    }
+  </head>
+  <body>
+    <!-- 公共骨架恒定：Navbar + main + Footer + 悬浮微信按钮（REQ-001/003/004） -->
+    <Navbar />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <FloatWechatButton />
+
+    <!-- ============================================================
+         全局增强脚本（tasks.md 9.1）：汉堡导航 + 滚动渐入
+         渐进增强：JS 禁用/加载失败时页面内容完整可读
+         ============================================================ -->
+    <script>
+      (function () {
+        var doc = document;
+        var html = doc.documentElement;
+
+        // JS 可用标记：激活「隐藏待渐入」态（design §2.8.1）
+        html.classList.add('js');
+
+        var reduceMotion = window.matchMedia(
+          '(prefers-reduced-motion: reduce)'
+        ).matches;
+        var lowEnd =
+          typeof navigator.hardwareConcurrency === 'number' &&
+          navigator.hardwareConcurrency <= 4;
+
+        /* ---------- 滚动渐入（REQ-005）---------- */
+        var revealTargets = doc.querySelectorAll(
+          '[data-reveal], [data-reveal-group]'
+        );
+        if (reduceMotion || lowEnd) {
+          // 低端机/减弱动效：直接全量可见（不卡顿、不眩晕）
+          revealTargets.forEach(function (el) {
+            el.classList.add('is-visible');
+          });
+        } else if ('IntersectionObserver' in window) {
+          var io = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add('is-visible');
+                  io.unobserve(entry.target); // 一次性
+                }
+              });
+            },
+            { root: null, threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+          );
+          revealTargets.forEach(function (el) {
+            io.observe(el);
+          });
+        } else {
+          revealTargets.forEach(function (el) {
+            el.classList.add('is-visible');
+          });
+        }
+
+        /* ---------- 汉堡菜单（REQ-001 移动端） ---------- */
+        var burger = doc.querySelector('[data-menu-toggle]');
+        var menu = doc.querySelector('[data-mobile-menu]');
+        var menuMask = doc.querySelector('[data-menu-mask]');
+        if (burger && menu) {
+          var closeMenu = function () {
+            if (menu.classList.contains('is-open')) toggleMenu();
+          };
+          var toggleMenu = function () {
+            var open = menu.classList.toggle('is-open');
+            burger.setAttribute('aria-expanded', String(open));
+            burger.setAttribute(
+              'aria-label',
+              open ? '关闭菜单' : '打开菜单'
+            );
+            if (menuMask) menuMask.classList.toggle('is-open', open);
+            doc.body.classList.toggle('menu-open', open);
+          };
+          burger.addEventListener('click', toggleMenu);
+          if (menuMask) {
+            menuMask.addEventListener('click', closeMenu);
+          }
+          doc.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeMenu();
+          });
+          // 点击菜单内的链接自动收起
+          menu.addEventListener('click', function (e) {
+            var target = e.target;
+            if (
+              target instanceof HTMLElement &&
+              target.closest('a') &&
+              menu.classList.contains('is-open')
+            ) {
+              closeMenu();
+            }
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>

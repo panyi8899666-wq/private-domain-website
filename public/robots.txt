@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# 部署到 Cloudflare Pages 获得真实域名后，把下面的地址替换为真实域名（见 guide 第 6 章）
+Sitemap: https://private-domain-website.pages.dev/sitemap-index.xml

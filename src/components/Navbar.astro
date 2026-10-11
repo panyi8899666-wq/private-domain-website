@@ -1,0 +1,138 @@
+---
+import { site } from '../lib/content';
+
+/** 当前路径（去掉末尾斜杠，保证 `/` 与 `/index` 均命中首页） */
+const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
+
+const links = [
+  { href: '/', label: '首页' },
+  { href: '/material', label: '物料百科' },
+  { href: '/works', label: '作品集' },
+  { href: '/order', label: '下单' },
+];
+
+function isActive(href: string): boolean {
+  if (href === '/') return path === '/';
+  return path.startsWith(href);
+}
+---
+
+<header
+  class="sticky top-0 z-50 relative border-b border-border-line bg-bg-base/85 backdrop-blur-md"
+  aria-label="全站导航"
+>
+  <div
+    class="container-site flex h-16 items-center justify-between gap-4"
+  >
+    <!-- Logo：任意页面点击返回首页（REQ-001） -->
+    <a
+      href="/"
+      class="flex min-h-11 items-center gap-2 text-base font-bold text-text-primary"
+      aria-label="返回首页"
+    >
+      <span
+        class="flex h-9 w-9 items-center justify-center rounded-[var(--radius-tag)] border border-accent-glow/40 bg-accent-glow/10 text-accent-glow text-neon"
+        aria-hidden="true"
+        >潘</span
+      >
+      <span class="hidden sm:inline">{site.siteName}</span>
+      <span class="sm:hidden">{site.siteName.replace('潘工·', '')}</span>
+    </a>
+
+    <!-- 桌面端横排导航（>768px） -->
+    <nav class="hidden md:flex items-center gap-6" aria-label="主导航">
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            class:list={[
+              'nav-link',
+              { 'is-active': isActive(link.href) },
+            ]}
+            aria-current={isActive(link.href) ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <!-- 桌面端快捷 CTA（REQ-002 转化出口） -->
+    <a
+      href="/order"
+      class="hidden md:inline-flex min-h-11 items-center rounded-[var(--radius-btn)] px-5 py-2.5 text-sm btn-primary-glow btn-sweep"
+    >
+      免费咨询报价
+    </a>
+
+    <!-- 移动端汉堡按钮（≤768px，44×44px） -->
+    <button
+      type="button"
+      data-menu-toggle
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      aria-label="打开菜单"
+      class="md:hidden flex h-11 w-11 items-center justify-center rounded-[var(--radius-btn)] border border-border-line bg-bg-surface text-text-primary transition hover:border-accent-glow/50"
+    >
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M4 6h16" />
+        <path d="M4 12h16" />
+        <path d="M4 18h16" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- 移动端下拉菜单遮罩 -->
+  <div
+    data-menu-mask
+    class="fixed inset-0 z-40 bg-black/60 opacity-0 invisible transition-opacity duration-300 md:hidden"
+    aria-hidden="true"
+  ></div>
+
+  <!-- 移动端全宽下拉菜单 -->
+  <div
+    id="mobile-menu"
+    data-mobile-menu
+    class="mobile-menu absolute inset-x-0 top-full z-50 border-b border-border-line bg-bg-surface md:hidden"
+    aria-label="移动端菜单"
+  >
+    <nav class="container-site flex flex-col py-2" aria-label="移动端导航">
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            class:list={[
+              'flex min-h-12 items-center border-b border-border-line/60 px-2 py-3 text-base',
+              isActive(link.href)
+                ? 'text-accent-glow font-semibold'
+                : 'text-text-secondary',
+            ]}
+            aria-current={isActive(link.href) ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <!-- 分割线 + 微信号快捷区 -->
+      <div class="flex items-center justify-between gap-2 px-2 py-4">
+        <p class="text-sm text-text-muted">
+          微信号：
+          <span class="text-text-primary">{site.wechat.wechatId}</span>
+        </p>
+        <a
+          href="/order"
+          class="inline-flex min-h-11 shrink-0 items-center rounded-[var(--radius-btn)] px-4 py-2 text-sm btn-secondary-glow"
+        >
+          免费咨询
+        </a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<style>
+  /* 菜单打开时锁定页面滚动（配合 BaseLayout 脚本 body.menu-open） */
+  :global(body.menu-open) {
+    overflow: hidden;
+  }
+</style>

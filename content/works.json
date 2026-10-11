@@ -1,0 +1,102 @@
+{
+  "_说明": "作品列表。新增作品 = 在 items 数组里复制一个花括号 {} 修改即可；分类在 categories 里维护，作品归属用 category 填分类的 id。featured 填 true 表示首页优先展示。",
+  "categories": [
+    { "id": "mentou", "name": "门头" },
+    { "id": "zhaopai", "name": "招牌" },
+    { "id": "zhanjia", "name": "展架" },
+    { "id": "huace", "name": "画册" }
+  ],
+  "_分类示例": "想加新分类，复制一行 { \"id\": \"新英文id\", \"name\": \"分类名\" } 加入 categories，再把作品 category 改成这个 id 即可自动出现新筛选项。",
+  "items": [
+    {
+      "id": "w001",
+      "name": "广州某火锅店发光字门头",
+      "category": "mentou",
+      "image": "/images/works/w001.svg",
+      "alt": "不锈钢围边发光字门头夜景实拍",
+      "note": "2026-06 完成 · 12cm 围边发光字",
+      "featured": true
+    },
+    {
+      "id": "w002",
+      "name": "连锁奶茶品牌门头招牌",
+      "category": "zhaopai",
+      "image": "/images/works/w002.svg",
+      "alt": "亚克力吸塑灯箱招牌白天实拍",
+      "note": "2026-05 完成 · 吸塑灯箱+迷你字",
+      "featured": true
+    },
+    {
+      "id": "w003",
+      "name": "展厅易拉宝展架画面",
+      "category": "zhanjia",
+      "image": "/images/works/w003.svg",
+      "alt": "会展展厅易拉宝喷绘画面实拍",
+      "note": "2026-04 完成 · 1.2m 易拉宝",
+      "featured": true
+    },
+    {
+      "id": "w004",
+      "name": "餐饮品牌菜单画册",
+      "category": "huace",
+      "image": "/images/works/w004.svg",
+      "alt": "铜版纸彩色菜单画册印刷成品",
+      "note": "2026-03 完成 · 250g 铜版纸 A5",
+      "featured": true
+    },
+    {
+      "id": "w005",
+      "name": "连锁药房门头发光字",
+      "category": "mentou",
+      "image": "/images/works/w005.svg",
+      "alt": "连锁药房平面发光字门头实拍",
+      "note": "2026-02 完成 · 平面发光字",
+      "featured": true
+    },
+    {
+      "id": "w006",
+      "name": "户外大型广告牌喷绘",
+      "category": "zhanjia",
+      "image": "/images/works/w006.svg",
+      "alt": "楼体户外喷绘广告画面实拍",
+      "note": "2026-01 完成 · 灯箱布 20m²",
+      "featured": true
+    },
+    {
+      "id": "w007",
+      "name": "企业前台形象墙字",
+      "category": "zhaopai",
+      "image": "/images/works/w007.svg",
+      "alt": "不锈钢金属字企业形象墙实拍",
+      "note": "2025-12 完成 · 拉丝不锈钢字",
+      "featured": false
+    },
+    {
+      "id": "w008",
+      "name": "科技公司产品画册印刷",
+      "category": "huace",
+      "image": "/images/works/w008.svg",
+      "alt": "企业产品画册精装印刷样品",
+      "note": "2025-11 完成 · 300g 卡纸精装",
+      "featured": false
+    },
+    {
+      "id": "w009",
+      "name": "商场中庭活动展架",
+      "category": "zhanjia",
+      "image": "/images/works/w009.svg",
+      "alt": "商场中庭促销活动展架画面实拍",
+      "note": "2025-10 完成 · 拉网展架",
+      "featured": false
+    },
+    {
+      "id": "w010",
+      "name": "连锁火锅店吸塑灯箱招牌",
+      "category": "zhaopai",
+      "image": "/images/works/w010.svg",
+      "alt": "吸塑灯箱发光招牌门面实拍",
+      "note": "2025-09 完成 · 吸塑灯箱",
+      "featured": false
+    }
+  ]
+}

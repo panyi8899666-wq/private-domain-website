@@ -1,0 +1,15 @@
+# 依赖与构建产物（不入库）
+node_modules/
+dist/
+.astro/
+
+# 系统文件
+.DS_Store
+*.log
+npm-debug.log*
+
+# 编辑器
+.vscode/
+.idea/
+# 本地工具辅助目录（可重新生成，不入库）
+.arts/

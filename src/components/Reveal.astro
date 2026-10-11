@@ -1,0 +1,33 @@
+---
+interface Props {
+  /**
+   * 渐入模式：
+   * - 'single'：容器自身渐入（data-reveal）
+   * - 'group'：容器内多个子元素依次交错渐入（子元素需带 data-reveal-item，并使用 --reveal-delay）
+   */
+  mode?: 'single' | 'group';
+  /** 渐入延迟，如 '80ms'（交错效果用） */
+  delay?: string;
+  /** 额外 class */
+  class?: string;
+}
+
+const { mode = 'single', delay = '0ms', class: className } = Astro.props;
+
+const propsRecord: Record<string, string> = {};
+if (mode === 'group') {
+  propsRecord['data-reveal-group'] = '';
+} else {
+  propsRecord['data-reveal'] = '';
+}
+---
+
+<!-- 滚动渐入容器（REQ-005）：包裹任意区块即得渐入动效（渐进增强：无 JS 恒可见） -->
+<div
+  {...propsRecord}
+  data-reveal-mode={mode}
+  style={`--reveal-delay:${delay}`}
+  class:list={[className]}
+>
+  <slot />
+</div>

@@ -1,0 +1,20 @@
+{
+  "name": "private-domain-website",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "个人私域建设综合网站 V1：兼职广告设计师获客门户（纯静态 Astro 站点）",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.3.0",
+    "@tailwindcss/vite": "^4.1.0",
+    "astro": "^5.12.0",
+    "sharp": "^0.34.0",
+    "tailwindcss": "^4.1.0"
+  }
+}

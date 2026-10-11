@@ -1,0 +1,46 @@
+{
+  "_说明": "这是首页所有文字和卡片的地方。想改首页哪段文字，就来找对应字段改。想新增作品去 works.json，这里只控制首页展示几条。",
+  "hero": {
+    "_说明": "手机打开网站第一屏看到的内容（首屏 Hero）。title 是最大的那行字。",
+    "badge": "广告物料一站式服务",
+    "title": "门头招牌 · 发光字 · 喷绘写真 · 印刷",
+    "subtitle": "10年广告物料老匠人，免费测量、免费设计、免费报价",
+    "primaryCtaText": "免费咨询报价",
+    "primaryCtaHref": "/order",
+    "secondaryCtaText": "加微信聊聊",
+    "_示例": "想改标语就把 subtitle 改成你的话；想改主按钮去的页面就改 primaryCtaHref。",
+    "backgroundImage": "/images/hero/bg.svg"
+  },
+  "services": {
+    "_说明": "服务板块：固定 4 项（REQ-007 要求缺一不可）。名称、简介、图标、链接都可以改。icon 图标名只能填白名单：pen-tool / box / spray / file-print。",
+    "items": [
+      { "name": "广告设计", "icon": "pen-tool", "desc": "logo/海报/画册设计，改到满意为止", "href": "/material#fashezi" },
+      { "name": "物料制作", "icon": "box", "desc": "发光字、灯箱、门头招牌制作与安装", "href": "/material#fashezi" },
+      { "name": "喷绘写真", "icon": "spray", "desc": "室内写真、户外喷绘，送货上门安装", "href": "/material#penhui" },
+      { "name": "印刷品", "icon": "file-print", "desc": "铜版纸、卡纸、相纸，大小批量都接", "href": "/material#yinshua" }
+    ]
+  },
+  "materialPreview": {
+    "_说明": "首页『物料百科』预览 3 张卡片（REQ-008）。标题/摘要/配图/跳转锚点都可改。href 必须指向 /material#开头的锚点。",
+    "cards": [
+      { "title": "发光字", "summary": "厚度/材质/光源/寿命…一文看懂怎么做", "image": "/images/materials/light-char.svg", "href": "/material#fashezi", "ctaText": "看发光字参数" },
+      { "title": "喷绘写真", "summary": "室内写真 vs 户外喷绘，差别一表看清", "image": "/images/materials/spray.svg", "href": "/material#penhui", "ctaText": "看喷绘对照" },
+      { "title": "印刷品", "summary": "铜版纸/卡纸/相纸克重与尺寸对照", "image": "/images/materials/print.svg", "href": "/material#yinshua", "ctaText": "看印刷对照" }
+    ]
+  },
+  "worksPreview": {
+    "_说明": "首页展示的作品数量。只能填 4~6 之间的数字（REQ-009 要求 4~6 张）。作品本身在 works.json 里维护。",
+    "count": 6
+  },
+  "process": {
+    "_说明": "首页四步接单流程（REQ-010）。步骤固定 4 步，只能改文字不能增减。",
+    "steps": [
+      { "step": "01", "title": "咨询", "desc": "加微信/填表说明需求，免费出方案" },
+      { "step": "02", "title": "报价", "desc": "确认方案后 30 分钟内给到报价" },
+      { "step": "03", "title": "制作", "desc": "按单生产，进度随时可查" },
+      { "step": "04", "title": "交付", "desc": "同城送货安装，外地快递包邮" }
+    ],
+    "ctaText": "立即开始咨询 / 下单",
+    "ctaHref": "/order"
+  }
+}

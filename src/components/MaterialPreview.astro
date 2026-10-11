@@ -1,0 +1,63 @@
+---
+import type { HomeConfig } from '../lib/types';
+
+interface Props {
+  cards: HomeConfig['materialPreview']['cards'];
+}
+
+const { cards } = Astro.props;
+---
+
+<!-- 首页物料百科预览（REQ-008）：发光字 / 喷绘写真 / 印刷品 三卡片 -->
+<section
+  class="section-block bg-bg-surface/40"
+  aria-labelledby="material-preview-title"
+>
+  <div class="container-site">
+    <div class="text-center" data-reveal>
+      <h2 id="material-preview-title" class="section-title-glow text-2xl md:text-4xl">
+        物料百科 · 一看就懂
+      </h2>
+      <p class="mx-auto mt-3 max-w-2xl text-text-secondary">
+        发光字怎么做？喷绘怎么选？印刷有什么门道？点卡片看参数对照
+      </p>
+    </div>
+
+    <div class="mt-10 grid gap-6 md:grid-cols-3" data-reveal-group>
+      {
+        cards.map((card, index) => (
+          <a
+            href={card.href}
+            class="card-surface group flex flex-col overflow-hidden"
+            data-reveal-item
+            style={`--reveal-delay:${index * 100}ms`}
+          >
+            <div class="aspect-[16/9] overflow-hidden bg-bg-surface-2">
+              <img
+                src={card.image}
+                alt={card.title}
+                loading="lazy"
+                decoding="async"
+                class="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                onerror="this.src='/images/materials/placeholder.svg';this.onerror=null;"
+              />
+            </div>
+            <div class="flex flex-1 flex-col p-5">
+              <h3 class="text-lg font-bold text-text-primary">{card.title}</h3>
+              <p class="mt-2 flex-1 text-sm text-text-secondary">
+                {card.summary}
+              </p>
+              <span class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-accent-glow">
+                {card.ctaText}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </span>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

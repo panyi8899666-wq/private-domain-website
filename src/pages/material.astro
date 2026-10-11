@@ -1,0 +1,179 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MaterialTable from '../components/MaterialTable.astro';
+import CTABanner from '../components/CTABanner.astro';
+import { materials, site } from '../lib/content';
+
+const fashezi = materials.fashezi;
+const dengxiang = materials.dengxiang;
+const penhui = materials.penhui;
+const yinshua = materials.yinshua;
+
+const anchorNav = [
+  { href: '#fashezi', label: '发光字' },
+  { href: '#dengxiang', label: '灯箱标识字' },
+  { href: '#penhui', label: '喷绘对照' },
+  { href: '#yinshua', label: '印刷对照' },
+];
+---
+
+<BaseLayout
+  pageTitle="物料百科：发光字参数|喷绘对照|印刷克重尺寸"
+  pageDescription="发光字八项参数、户内写真与户外喷绘对照、铜版纸/卡纸/相纸克重尺寸，一表看懂广告物料专业门道，免费报价微信咨询。"
+>
+  <!-- 页头：大标题 + 引言 + 站内快捷锚点导航 -->
+  <section class="bg-light-spots py-14 md:py-20" aria-labelledby="material-title">
+    <div class="container-site text-center">
+      <span class="inline-flex rounded-full border border-accent-glow/45 bg-accent-glow/10 px-4 py-1.5 text-sm text-accent-glow text-neon" data-reveal>
+        广告物料百科
+      </span>
+      <h1 id="material-title" class="text-glow-gradient mx-auto mt-4 text-3xl font-extrabold md:text-5xl" data-reveal style="--reveal-delay:80ms">
+        选对材料，少花冤枉钱
+      </h1>
+      <p class="mx-auto mt-4 max-w-2xl text-text-secondary" data-reveal style="--reveal-delay:160ms">
+        发光字、灯箱标识字、喷绘写真、印刷品的专业参数与对照，一看就懂
+      </p>
+      <!-- 锚点导航 -->
+      <nav class="mt-7 flex flex-wrap justify-center gap-2" aria-label="物料百科页内导航" data-reveal style="--reveal-delay:220ms">
+        {
+          anchorNav.map((item) => (
+            <a
+              href={item.href}
+              class="inline-flex min-h-11 items-center rounded-[var(--radius-tag)] border border-border-line bg-bg-surface px-4 py-2 text-sm text-text-secondary transition hover:border-accent-glow/50 hover:text-accent-glow"
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+  </section>
+
+  <!-- 主内容区：左侧信息 + 桌面端右侧快速咨询浮条 -->
+  <div class="container-site section-block">
+    <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_280px]">
+      <div class="space-y-10">
+        <!-- 发光字八参数（REQ-012） -->
+        <section id="fashezi" class="scroll-mt-24" aria-labelledby="fashezi-h2">
+          <h2 id="fashezi-h2" class="sr-only">{fashezi.title}</h2>
+          <MaterialTable
+            variant="params"
+            title={fashezi.title}
+            intro={fashezi.intro}
+            params={fashezi.params}
+            ctaText={fashezi.ctaText}
+            ctaHref={fashezi.ctaHref}
+          />
+        </section>
+
+        <!-- 灯箱与标识字（REQ-013） -->
+        <section id="dengxiang" class="scroll-mt-24" aria-labelledby="dengxiang-h2">
+          <h2 id="dengxiang-h2" class="sr-only">{dengxiang.title}</h2>
+          <div class="card-surface overflow-hidden">
+            <div class="border-b border-border-line p-5 md:p-6">
+              <h3 class="section-title-glow text-lg font-bold md:text-xl">{dengxiang.title}</h3>
+              <p class="mt-2 text-sm text-text-secondary">{dengxiang.intro}</p>
+            </div>
+            <div class="grid gap-4 p-5 md:grid-cols-2">
+              {
+                dengxiang.categories?.map((cat) => (
+                  <article class="rounded-[var(--radius-btn)] border border-border-line bg-bg-surface/60 p-5">
+                    <h4 class="font-bold text-accent-glow text-neon">{cat.type}</h4>
+                    <dl class="mt-3 space-y-2 text-sm">
+                      <div class="flex gap-2">
+                        <dt class="w-20 shrink-0 text-text-muted">适用场景</dt>
+                        <dd class="text-text-secondary">{cat.scenes}</dd>
+                      </div>
+                      <div class="flex gap-2">
+                        <dt class="w-20 shrink-0 text-text-muted">制作工艺</dt>
+                        <dd class="text-text-secondary">{cat.craft}</dd>
+                      </div>
+                      <div class="flex gap-2">
+                        <dt class="w-20 shrink-0 text-text-muted">价格参考</dt>
+                        <dd class="font-medium text-text-primary">{cat.priceRange}</dd>
+                      </div>
+                    </dl>
+                  </article>
+                ))
+              }
+            </div>
+            <div class="pb-6 text-center">
+              <a
+                href={dengxiang.ctaHref}
+                class="inline-flex min-h-11 items-center gap-2 rounded-[var(--radius-btn)] px-6 py-2.5 text-sm btn-primary-glow"
+              >
+                {dengxiang.ctaText}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- 喷绘对照表（REQ-014） -->
+        <section id="penhui" class="scroll-mt-24" aria-labelledby="penhui-h2">
+          <h2 id="penhui-h2" class="sr-only">{penhui.title}</h2>
+          <MaterialTable
+            variant="compare"
+            title={penhui.title}
+            intro={penhui.intro}
+            columns={penhui.columns}
+            rows={penhui.rows}
+            ctaText={penhui.ctaText}
+            ctaHref={penhui.ctaHref}
+          />
+        </section>
+
+        <!-- 印刷对照表（REQ-015） -->
+        <section id="yinshua" class="scroll-mt-24" aria-labelledby="yinshua-h2">
+          <h2 id="yinshua-h2" class="sr-only">{yinshua.title}</h2>
+          <MaterialTable
+            variant="compare"
+            title={yinshua.title}
+            intro={yinshua.intro}
+            columns={yinshua.columns}
+            rows={yinshua.rows}
+            ctaText={yinshua.ctaText}
+            ctaHref={yinshua.ctaHref}
+          />
+        </section>
+      </div>
+
+      <!-- 桌面端侧边「快速咨询」浮条（REQ-002 转化出口） -->
+      <aside class="hidden self-start lg:sticky lg:top-24 lg:block" aria-label="快速咨询">
+        <div class="card-surface p-5 text-center">
+          <p class="text-sm font-bold text-text-primary">快速咨询报价</p>
+          <img
+            src={site.wechat.qrImage}
+            alt={site.wechat.qrAlt}
+            width="200"
+            height="200"
+            loading="lazy"
+            class="mx-auto mt-4 w-40 rounded-[var(--radius-btn)] border border-border-line bg-white p-1"
+          />
+          <p class="mt-3 text-xs text-text-muted">
+            微信扫一扫，加潘工报价
+          </p>
+          <a
+            href="/order"
+            class="mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-[var(--radius-btn)] px-4 py-2.5 text-sm btn-primary-glow"
+          >
+            免费咨询报价
+          </a>
+          <p class="mt-3 text-xs text-text-muted">
+            或搜索微信号
+            <span class="select-all text-text-secondary">{site.wechat.wechatId}</span>
+          </p>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- 页底 CTA 横幅（REQ-002） -->
+  <CTABanner
+    title="看完不知道选哪种？交给潘工帮你配！"
+    subtitle="把现场照片发过来，免费给你推荐材料方案与报价"
+  />
+</BaseLayout>

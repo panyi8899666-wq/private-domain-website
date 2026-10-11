@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import OrderForm from '../components/OrderForm.astro';
+import StoreCard from '../components/StoreCard.astro';
+import OrderProcess from '../components/OrderProcess.astro';
+import CTABanner from '../components/CTABanner.astro';
+import { order } from '../lib/content';
+---
+
+<BaseLayout
+  pageTitle="下单与咨询：免费报价|微信小商店在线下单"
+  pageDescription="提交需求免费报价，或前往微信小商店直接下单支付；全流程由第三方平台担保承接，安全省心，支持微信支付。"
+>
+  <!-- 页头 -->
+  <section class="bg-light-spots py-14 md:py-20" aria-labelledby="order-title">
+    <div class="container-site text-center">
+      <span class="inline-flex rounded-full border border-accent-glow/45 bg-accent-glow/10 px-4 py-1.5 text-sm text-accent-glow text-neon" data-reveal>
+        下单 · 咨询 · 支付
+      </span>
+      <h1 id="order-title" class="text-glow-gradient mx-auto mt-4 text-3xl font-extrabold md:text-5xl" data-reveal style="--reveal-delay:80ms">
+        {order.pageTitle}
+      </h1>
+      <p class="mx-auto mt-4 max-w-2xl text-text-secondary" data-reveal style="--reveal-delay:160ms">
+        {order.intro}
+      </p>
+    </div>
+  </section>
+
+  <!-- 主体：桌面 2 列（表单 + 小商店）/ 移动单列堆叠（REQ-020/021） -->
+  <div class="container-site section-block">
+    <div class="grid gap-8 lg:grid-cols-2">
+      <OrderForm />
+      <StoreCard />
+    </div>
+    <!-- 底部提示：三通道并存 -->
+    <p class="mt-6 text-center text-xs text-text-muted">
+      三条下单通道任选其一：上方需求表 / 小商店直付 / 微信沟通，均不经过本网站收款
+    </p>
+  </div>
+
+  <!-- 接单流程 5 步（REQ-022） -->
+  <OrderProcess />
+
+  <!-- 页底 CTA 横幅（REQ-002：疑问兜底出口） -->
+  <CTABanner
+    title="还有疑问？加微信直接沟通"
+    subtitle="设计、材质、工期、价格，任何问题都欢迎随时来问"
+  />
+</BaseLayout>

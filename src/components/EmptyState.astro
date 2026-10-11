@@ -1,0 +1,55 @@
+---
+interface Props {
+  /** 主标题文案 */
+  title?: string;
+  /** 副文案 */
+  text?: string;
+  /** CTA 按钮文案 */
+  ctaText?: string;
+  /** CTA 链接（默认 /order） */
+  ctaHref?: string;
+}
+
+const {
+  title = '暂无该分类作品',
+  text = '换个分类看看，或直接联系设计师聊聊需求',
+  ctaText = '联系设计师咨询',
+  ctaHref = '/order',
+} = Astro.props;
+---
+
+<!-- 空状态（REQ-017/018）：图标 + 文案 + 咨询入口，不破坏布局 -->
+<div class="card-surface px-6 py-14 text-center">
+  <span
+    class="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-border-line bg-bg-surface-2 text-text-muted"
+    aria-hidden="true"
+  >
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14.5 17.5 3 6V3h18v3l-8.5 8.5" />
+      <path d="M14.5 17.5 11 21h2l2.5-3.5" />
+      <path d="M18 18l2 4" />
+      <path d="m22 22-2-4" />
+    </svg>
+  </span>
+  <h3 class="mt-5 text-lg font-bold text-text-primary" data-empty-title>{title}</h3>
+  <p class="mt-2 text-sm text-text-secondary">{text}</p>
+  <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
+    <a
+      href={ctaHref}
+      class="inline-flex min-h-11 items-center gap-2 rounded-[var(--radius-btn)] px-6 py-2.5 text-sm btn-primary-glow"
+    >
+      {ctaText}
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M5 12h14" />
+        <path d="m12 5 7 7-7 7" />
+      </svg>
+    </a>
+    <button
+      type="button"
+      data-open-wechat
+      class="inline-flex min-h-11 items-center gap-2 rounded-[var(--radius-btn)] px-6 py-2.5 text-sm btn-secondary-glow"
+    >
+      加微信聊
+    </button>
+  </div>
+</div>

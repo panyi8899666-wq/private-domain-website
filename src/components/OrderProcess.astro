@@ -1,0 +1,7 @@
+---
+import ProcessFlow from './ProcessFlow.astro';
+import { order } from '../lib/content';
+---
+
+<!-- 下单页接单流程（REQ-022）：复用 ProcessFlow 组件 5 步模式（不修改组件代码） -->
+<ProcessFlow steps={order.process.steps} />

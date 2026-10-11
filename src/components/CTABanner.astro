@@ -1,0 +1,67 @@
+---
+interface Props {
+  /** 横幅主标题 */
+  title?: string;
+  /** 副文案 */
+  subtitle?: string;
+  /** 主按钮文字（默认「免费咨询报价」，→ /order） */
+  primaryText?: string;
+  /** 副按钮文字（默认「加微信聊聊」，触发悬浮弹层） */
+  secondaryText?: string;
+}
+
+const {
+  title = '免费咨询报价，先报价后下单',
+  subtitle = '把需求告诉我们，30 分钟内给到方案与报价',
+  primaryText = '免费咨询报价',
+  secondaryText = '加微信聊聊',
+} = Astro.props;
+---
+
+<!-- 通用转化横幅（REQ-002 无死胡同的兜底出口）：深色底 + 径向光斑 + 双出口 -->
+<section class="section-block" aria-label="免费咨询">
+  <div class="container-site">
+    <div
+      class="bg-light-spots relative overflow-hidden rounded-[var(--radius-card)] border border-glow-line px-6 py-10 text-center md:px-12 md:py-16"
+    >
+      <!-- 装饰光斑 -->
+      <div
+        class="pointer-events-none absolute -left-16 -top-16 h-56 w-56 rounded-full bg-accent-glow/10 blur-3xl"
+        aria-hidden="true"
+      ></div>
+      <div
+        class="pointer-events-none absolute -bottom-20 -right-10 h-64 w-64 rounded-full bg-accent-orange/10 blur-3xl"
+        aria-hidden="true"
+      ></div>
+
+      <div data-reveal class="relative">
+        <h2 class="section-title-glow text-2xl md:text-4xl">{title}</h2>
+        <p class="mx-auto mt-3 max-w-2xl text-text-secondary">{subtitle}</p>
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <a
+            href="/order"
+            class="inline-flex min-h-12 items-center gap-2 rounded-[var(--radius-btn)] px-7 py-3 text-base btn-primary-glow btn-sweep"
+          >
+            {primaryText}
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+          </a>
+          <button
+            type="button"
+            data-open-wechat
+            class="inline-flex min-h-12 items-center gap-2 rounded-[var(--radius-btn)] px-7 py-3 text-base btn-secondary-glow"
+          >
+            {secondaryText}
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path
+                d="M8.7 4C5 4 2 6.5 2 9.6c0 1.7.9 3.3 2.3 4.3l-.6 1.9c-.1.3.2.6.5.4l2.1-1.3c.8.2 1.6.3 2.4.3.3 0 .6 0 .9-.1-.1-.5-.1-1 0-1.5 0-2.7 2.4-4.8 5.4-4.8h.4C14.6 5.8 11.9 4 8.7 4zM6.4 7.6c.7 0 1.2.5 1.2 1.2S7 10 6.4 10s-1.2-.5-1.2-1.2.5-1.2 1.2-1.2zm4.6 0c.7 0 1.2.5 1.2 1.2s-.5 1.2-1.2 1.2-1.2-.5-1.2-1.2.5-1.2 1.2-1.2zM22 14.4c0-2.6-2.6-4.7-5.8-4.7s-5.8 2.1-5.8 4.7 2.6 4.7 5.8 4.7c.7 0 1.4-.1 2-.3l1.8 1.1c.3.2.6-.1.5-.4l-.5-1.6c1.3-.9 2-2 2-3.5zm-7.7-.6c-.6 0-1-.5-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1zm3.8 0c-.6 0-1-.5-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
