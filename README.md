@@ -42,8 +42,15 @@ astro.config.mjs                  # Astro 配置（静态输出 + sitemap）
 
 ## 部署
 
-- 部署平台：**Cloudflare Pages（免费）**，通过 GitHub 推送 `main` 分支自动构建发布。
-- 构建配置：构建命令 `npm run build`，输出目录 `dist`。
-- 详细步骤见 `tasks.md` 任务 12.3 与《改内容教学》第 6 章。
+全站零成本托管，只需要 5 步：
+
+1. 注册 GitHub 账号，并新建一个空仓库（名字随意，如 `private-domain-website`）；
+2. 把本项目的代码上传（push）到 GitHub 仓库；
+3. 注册 Cloudflare 账号，进入「Pages」并「连接 GitHub」选择刚上传的仓库；
+4. 按提示填写构建配置：构建命令 `npm run build`，输出目录 `dist`，然后点「保存并部署」；
+5. 等待约 1~2 分钟，即可通过自动生成的 `https://xxxx.pages.dev` 域名访问网站。
+
+> 构建配置：构建命令 `npm run build`，输出目录 `dist`，推送 `main` 分支自动发布。
+> 面向新手的**逐步骤图文操作指引**见 `docs/部署指南-GitHub与Cloudflare.md`（打开就能照着做）。
 
 > 需求与设计依据：`.codeartsdoer/specs/private-domain-website/` 下的 `spec.md`（REQ-001~039）、`design.md`、`tasks.md`。
