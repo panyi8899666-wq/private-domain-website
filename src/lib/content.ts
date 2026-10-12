@@ -93,7 +93,7 @@ function readJson<T>(fileName: string, defaults: T): T {
 const DEFAULT_SITE: SiteConfig = {
   siteName: '潘工·广告物料制作',
   slogan: '10年广告物料老匠人，发光字·喷绘·印刷一站式',
-  wechat: { wechatId: 'wechat_designer', qrImage: '/images/qr/wechat.png', qrAlt: '扫码添加微信，免费咨询报价' },
+  wechat: { wechatId: '17306983179', qrImage: '/images/qr/wechat.png', qrAlt: '扫码添加微信，免费咨询报价' },
   contact: { phone: '', location: '', serviceHours: '' },
   social: {
     storeUrl: 'https://your-store.example.com',
@@ -154,19 +154,19 @@ const DEFAULT_WORKS: WorksConfig = {
 
 const DEFAULT_ORDER: OrderConfig = {
   pageTitle: '下单与咨询',
-  intro: '填表发需求，或直接去小商店下单付款；有疑问随时加微信。',
+  intro: '加微信发需求，1 对 1 报价；全程微信沟通，无需问卷或第三方店铺。',
   form: {
     embedUrl: 'https://wj.qq.com/example-survey',
     fallbackUrl: 'https://wj.qq.com/example-survey-fallback',
     fallbackText: '打不开问卷？点这里直接填写需求表',
     iframeTitle: '需求登记表',
   },
-  store: { title: '去微信小商店下单付款', url: 'https://your-store.example.com', note: '由平台担保交易，支持微信支付' },
+  store: { title: '添加微信直接下单', url: 'https://your-store.example.com', note: '微信沟通确认需求与报价，微信转账支付，无第三方平台' },
   process: {
     steps: [
-      { step: '01', title: '提交需求', desc: '填表或微信留言' },
+      { step: '01', title: '提交需求', desc: '微信留言：类型/尺寸/数量/位置' },
       { step: '02', title: '确认报价', desc: '免费出方案与报价' },
-      { step: '03', title: '支付定金', desc: '微信小商店下单支付' },
+      { step: '03', title: '支付定金', desc: '微信沟通确认后支付，可留收据与记录' },
       { step: '04', title: '制作生产', desc: '按工艺标准生产' },
       { step: '05', title: '交付验收', desc: '配送安装/验收结款' },
     ],
@@ -239,14 +239,13 @@ function validateMaterials(): void {
   }
 }
 
-/** order 兜底直链与小商店外链为硬约束（REQ-023/021），缺失时保持默认值可用并告警 */
+/**
+ * order 兜底直链与小商店外链字段：当前页面已不引用（微信直联），
+ * 字段保留仅防类型缺失；如缺失则静默使用默认占位值（不阻断渲染）。
+ */
 function validateOrder(): void {
-  if (!order.form.fallbackUrl || !order.form.fallbackUrl.trim()) {
-    devWarn('order.json form.fallbackUrl 为空（REQ-023 兜底直链禁止缺失）。');
-  }
-  if (!order.store.url || !order.store.url.trim()) {
-    devWarn('order.json store.url 为空（REQ-021 小商店外链禁止缺失）。');
-  }
+  // 注：embedUrl/fallbackUrl/store.url 字段仍存在于 schema，但页面已不渲染。
+  // 保留占位值即可通过；如以后开通问卷/小商店可填回并恢复组件渲染。
 }
 
 /** works 分类归属校验：非法 category 归入「其他」（避免渲染错乱） */

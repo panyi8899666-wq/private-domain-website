@@ -3,9 +3,9 @@
   "siteName": "潘工·广告物料制作",
   "slogan": "10+年广告标识与发光字经验，3D视效·展台美陈·户外标识一站式",
   "wechat": {
-    "_说明": "微信号与二维码。二维码图片放在 public/images/qr/ 文件夹，然后把文件名填到下面的 qrImage。注意二维码长边建议 ≥400 像素，微信才能正常扫出来（REQ-004）。",
-    "wechatId": "wechat_designer",
-    "_示例": "把上面 wechatId 改成你自己的微信号，比如 pan-gong-ad；qrImage 改成你自己二维码的文件名。",
+    "_说明": "微信号与二维码。当前微信号已填好（即手机号 17306983179），微信直联是唯一接单/支付渠道。二维码图片放在 public/images/qr/ 文件夹，然后把文件名填到下面的 qrImage。注意二维码长边建议 ≥400 像素，微信才能正常扫出来（REQ-004）。",
+    "wechatId": "17306983179",
+    "_示例": "微信号已填好（17306983179，即手机号），无需再改；如将来换号，把 wechatId 改成新微信号即可，qrImage 改成对应二维码的文件名。",
     "qrImage": "/images/qr/wechat.png",
     "qrAlt": "扫码添加潘工微信，免费咨询报价"
   },
@@ -16,9 +16,9 @@
     "serviceHours": "9:00-21:00"
   },
   "social": {
-    "_说明": "第三方外链地址：问卷与微信小商店。这是下单页转化的关键入口，务必不要留空。",
+    "_说明": "以下 storeUrl / surveyUrl / surveyFallbackUrl 为占位值（your-store.example.com / wj.qq.com/example-survey 均为示例链接）。当前暂未接入第三方店铺/问卷，页面以微信直联接单（微信即手机号 17306983179），因此页面代码不再引用这三个字段；如以后开通腾讯问卷/小商店，再把真实链接填回并同步页面组件。",
     "storeUrl": "https://your-store.example.com",
-    "_示例": "把你自己的微信小商店/有赞/微店链接粘到 storeUrl，把腾讯问卷/金数据的问卷链接粘到 surveyUrl。",
+    "_示例": "暂未接入第三方店铺/问卷，当前以微信直联接单（微信号即手机号 17306983179）。如以后开通，把微信小商店/有赞/微店链接粘到 storeUrl，把腾讯问卷/金数据的问卷链接粘到 surveyUrl。",
     "surveyUrl": "https://wj.qq.com/example-survey",
     "surveyFallbackUrl": "https://wj.qq.com/example-survey-fallback"
   },
