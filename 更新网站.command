@@ -5,6 +5,11 @@
 #  用法：在访达里双击本文件即可
 # ============================================
 
+# 加载 Node 环境（让 npm / wrangler / git 命令可用）
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+export PATH="/opt/homebrew/bin:$PATH"
+
 cd "/Users/pan/Downloads/个人私域建设" || {
   echo "❌ 找不到项目文件夹，可能被移动了。"
   read -n 1 -s -r -p "按任意键关闭..."
