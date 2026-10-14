@@ -12,4 +12,7 @@ npm-debug.log*
 .vscode/
 .idea/
 # 本地工具辅助目录（可重新生成，不入库）
-.arts/
+.arts/.codeartsdoer/document_explorer/
+
+# 原始资料（个人简历/案例 PDF 等，仅本地保留，不上传）
+*.pdf
