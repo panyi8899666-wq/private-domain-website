@@ -15,6 +15,19 @@
     "url": "https://your-store.example.com",
     "note": "微信沟通确认需求与报价，微信转账支付，无第三方平台"
   },
+  "payment": {
+    "_说明": "收款码图片。客户加微信沟通确认后，可扫码支付定金/尾款。图片放在 public/images/qr/ 目录。",
+    "title": "扫码支付定金/尾款",
+    "note": "加微信沟通确认需求与报价后，扫码支付。支持微信支付和支付宝",
+    "wechatPay": {
+      "image": "/images/qr/wechat-pay.jpg",
+      "alt": "微信支付收款码 - 扫码向潘工付款"
+    },
+    "alipay": {
+      "image": "/images/qr/alipay.jpg",
+      "alt": "支付宝收款码 - 扫码向潘工付款"
+    }
+  },
   "process": {
     "_说明": "下单页完整接单流程（5 步，REQ-022）。步骤固定 5 步，可改文字。当前流程围绕微信直联：微信留言 → 报价 → 微信确认支付 → 制作 → 交付。",
     "steps": [

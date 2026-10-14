@@ -36,6 +36,34 @@ import { site } from '../lib/content';
       </svg>
       先沟通确认，再支付定金，开单留存记录
     </p>
+
+    <!-- 收款码展示区域 -->
+    <div class="mt-5">
+      <p class="mb-3 text-center text-sm font-medium text-text-primary">扫码支付定金/尾款</p>
+      <div class="grid grid-cols-2 gap-3">
+        <!-- 微信支付收款码 -->
+        <div class="rounded-[var(--radius-btn)] border border-success/30 bg-success/5 p-3 text-center">
+          <img
+            src="/images/qr/wechat-pay.jpg"
+            alt="微信支付收款码 - 扫码向潘工付款"
+            loading="lazy"
+            class="mx-auto w-full max-w-[160px] rounded-lg border border-border-line bg-white p-1.5"
+          />
+          <p class="mt-2 text-xs font-medium text-success">微信支付</p>
+        </div>
+        <!-- 支付宝收款码 -->
+        <div class="rounded-[var(--radius-btn)] border border-blue-400/30 bg-blue-400/5 p-3 text-center">
+          <img
+            src="/images/qr/alipay.jpg"
+            alt="支付宝收款码 - 扫码向潘工付款"
+            loading="lazy"
+            class="mx-auto w-full max-w-[160px] rounded-lg border border-border-line bg-white p-1.5"
+          />
+          <p class="mt-2 text-xs font-medium text-blue-400">支付宝</p>
+        </div>
+      </div>
+      <p class="mt-2 text-center text-xs text-text-muted">先沟通确认需求与报价，再扫码支付</p>
+    </div>
   </div>
 
   <!-- 微信直联通道（加微信/扫码） -->

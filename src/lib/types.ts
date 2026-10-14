@@ -47,6 +47,12 @@ export interface OrderConfig {
   intro: string;
   form: { embedUrl: string; fallbackUrl: string; fallbackText: string; iframeTitle: string };
   store: { title: string; url: string; note: string };
+  payment?: {
+    title: string;
+    note: string;
+    wechatPay: { image: string; alt: string };
+    alipay: { image: string; alt: string };
+  };
   process: { steps: Array<{ step: string; title: string; desc: string }> };
 }
 
